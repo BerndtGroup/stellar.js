@@ -10,10 +10,10 @@ module.exports = function(grunt) {
 				' * <%= pkg.homepage %>\n' +
 				' *\n' +
 				' * Copyright <%= grunt.template.today("yyyy") %>, <%= pkg.author.name %>\n' +
-				' * This content is released under the <%= _.pluck(pkg.licenses, "type").join(", ") %> license<%= pkg.licenses.length === 1 ? "" : "s" %>\n' +
-				' * <%= _.pluck(pkg.licenses, "url").join(", ") %>\n' +
+				' * This content is released under the <%= _.map(pkg.licenses, "type").join(", ") %> license<%= pkg.licenses.length === 1 ? "" : "s" %>\n' +
+				' * <%= _.map(pkg.licenses, "url").join(", ") %>\n' +
 				' */\n\n',
-			microbanner: '/*! <%= pkg.title || pkg.name %> v<%= pkg.version %> | Copyright <%= grunt.template.today("yyyy") %>, <%= pkg.author.name %> | <%= pkg.homepage %> | <%= _.pluck(pkg.licenses, "url").join(", ") %> */\n'
+			microbanner: '/*! <%= pkg.title || pkg.name %> v<%= pkg.version %> | Copyright <%= grunt.template.today("yyyy") %>, <%= pkg.author.name %> | <%= pkg.homepage %> | <%= _.map(pkg.licenses, "url").join(", ") %> */\n'
 		},
 		jshint: {
 			files: ['Gruntfile.js', 'test/**/*.js', 'src/**/*.js'],

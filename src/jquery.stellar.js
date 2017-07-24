@@ -1,4 +1,4 @@
-;(function($, window, document, undefined) {
+;(function($, document, undefined) {
 
 	var pluginName = 'stellar',
 		defaults = {
@@ -15,6 +15,30 @@
 			hideElement: function($elem) { $elem.hide(); },
 			showElement: function($elem) { $elem.show(); }
 		},
+		
+		// Returns a function which adds a vendor prefix to any CSS property name
+		vendorPrefix = (function() {
+			var prefixes = /^(Moz|Webkit|Khtml|O|ms|Icab)(?=[A-Z])/,
+				style = $('script')[0].style,
+				prefix = '',
+				prop;
+
+			for (prop in style) {
+				if (prefixes.test(prop)) {
+					prefix = prop.match(prefixes)[0];
+					break;
+				}
+			}
+
+			if ('WebkitOpacity' in style) { prefix = 'Webkit'; }
+			if ('KhtmlOpacity' in style) { prefix = 'Khtml'; }
+
+			return function(property) {
+				return prefix + (prefix.length > 0 ? property.charAt(0).toUpperCase() + property.slice(1) : property);
+			};
+		}()),
+
+		prefixedTransform = vendorPrefix('transform'),
 
 		scrollProperty = {
 			scroll: {
@@ -55,30 +79,6 @@
 				}
 			}
 		},
-
-		// Returns a function which adds a vendor prefix to any CSS property name
-		vendorPrefix = (function() {
-			var prefixes = /^(Moz|Webkit|Khtml|O|ms|Icab)(?=[A-Z])/,
-				style = $('script')[0].style,
-				prefix = '',
-				prop;
-
-			for (prop in style) {
-				if (prefixes.test(prop)) {
-					prefix = prop.match(prefixes)[0];
-					break;
-				}
-			}
-
-			if ('WebkitOpacity' in style) { prefix = 'Webkit'; }
-			if ('KhtmlOpacity' in style) { prefix = 'Khtml'; }
-
-			return function(property) {
-				return prefix + (prefix.length > 0 ? property.charAt(0).toUpperCase() + property.slice(1) : property);
-			};
-		}()),
-
-		prefixedTransform = vendorPrefix('transform'),
 
 		supportsBackgroundPositionXY = $('<div />', { style: 'background:#fff' }).css('background-position-x') !== undefined,
 
@@ -648,4 +648,4 @@
 
 	// Expose the plugin class so it can be modified
 	window.Stellar = Plugin;
-}(jQuery, this, document));
+}(jQuery, document));
